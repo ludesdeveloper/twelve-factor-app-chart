@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: microservices-tutorial
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /home
+            pathType: Prefix
+            backend:
+              service:
+                name: python-app 
+                port:
+                  number: 5000         
+          - path: /curl
+            pathType: Prefix
+            backend:
+              service:
+                name: python-app 
+                port:
+                  number: 5000

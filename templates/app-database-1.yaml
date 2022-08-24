@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-database-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-database-1
+  template:
+    metadata:
+      labels:
+        app: python-database-1
+    spec:
+      containers:
+        - name: python-database-1
+          image: ludesdeveloper/flask-curl-py:latest 
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "20m"
+          ports:
+            - containerPort: 5000
+          imagePullPolicy: Always
+          env:
+            - name: MYAPPINFO 
+              value: "Python Database 1"
+            - name: URL
+              value: "http://0.0.0.0:5000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-database-1
+spec:
+  selector:
+    app: python-database-1
+  ports:
+    - port: 5000 
+      targetPort: 5000
